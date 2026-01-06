@@ -1,5 +1,4 @@
 
-
 from automator import PosAutomator
 from test_base import setup_and_login, generar_nit_valido 
 from faker import Faker

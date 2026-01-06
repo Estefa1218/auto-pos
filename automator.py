@@ -209,42 +209,7 @@ class PosAutomator:
         if exito: exito = self._click_image("postre.png", "Botón 'Segundo modificador'")
         if exito: exito = self._click_image("segundo modificador.png", "Agregar Modificador 2'")
         return exito
-    
-
-    def pagar_con_efectivo(self, subtotal, propina):
-        """Realiza el flujo de pago con efectivo."""
-        print("\n--- Realizando Pago con Efectivo ---")
-        exito = True
-        if exito: exito = self._click_image("medio de pago .png", "Desplegable de método de pago")
-        if exito: exito = self._click_image("efectivo.png", "Opción 'Efectivo'")
-        if exito: exito = self._type_into_field("sub total.png", subtotal, "Campo de valor pagado")
-        if exito: exito = self._type_into_field("propina.png", propina, "Campo de propina")
-        if exito: exito = self._click_image("cerrar orden.png", "Botón 'Cerrar Orden' final")
-        return exito
-    
-
-    def pagar_con_descuento_y_tarjeta(self, imagen_propina, porcentaje_descuento):
-        print(f"\n--- Pagando orden con {porcentaje_descuento}% de descuento y tarjeta ---")
-        exito = True
-        if exito: exito = self._click_image("Ir a cobrar.png", "Botón 'Ir a Cobrar'")
-        if exito: exito = self._click_image(imagen_propina, "Botón de Propina")
-        pyautogui.scroll(-500); time.sleep(1)
-        if exito: exito = self._click_image("descuento.png", "Botón 'Descuento'")
-        if exito: exito = self._type_into_field("escribir descuento.png", str(porcentaje_descuento), "Campo 'Descuento'")
-        pyautogui.scroll(-500); time.sleep(1)
-        if exito: exito = self._click_image("tarjeta.png", "Método de pago 'Tarjeta'")
-        if exito: exito = self._click_image("confirmar.png", "Botón 'Confirmar'")
-        return exito
-
-    def iniciar_edicion_y_reautenticar(self, pin):
-        print("\n--- Iniciando edición de orden ---")
-        exito = True
-        if exito: exito = self._click_image("editar orden.png", "Botón 'Editar Orden'")
-        if exito:
-            print("-> Re-autenticando con PIN de edición...")
-            time.sleep(2)
-            exito = self.login(pin, image_prefix="editar ")
-        return exito
+#------------------------Factura_Electronica
 
     def llenar_formulario_nit(self, nit_numero, dv, razon_social, correo):
         print(f"\n--- Llenando formulario NIT para: {razon_social} ---")
@@ -317,15 +282,221 @@ class PosAutomator:
         if exito: exito = self._type_into_field("telefono club.png", telefono, "Campo 'Teléfono'")
         if exito: exito = self._click_image("confirmar club.png", "Botón 'Confirmar' del registro")
         return exito
+
+    def usuario_registrado_en_club(self, documento):
+        """usar un usuario está registrado en el club."""
+        print(f"\n--- Buscando cliente registrado en club: {documento} ---")
+        exito = True
+        if exito: exito = self._click_image("club bacanes.png", "Botón 'Club Bacanes'")
+        if exito: exito = self._type_into_field("buscador club.png", documento, "Escribir documento")
+        if exito: exito = self._click_image("buscar cliente club.png", "Botón 'Buscar cliente'")
+        if exito: exito = self._click_image("confirmar club.png", "Botón 'Confirmar' del registro")
+        return exito
     
+    def usuario_redimir(self, documento):
+        """redimir con un usuario registrado en el club."""
+        print(f"\n--- Buscando cliente registrado en club: {documento} ---")
+        exito = True
+        if exito: exito = self._click_image("club bacanes.png", "Botón 'Club Bacanes'")
+        if exito: exito = self._type_into_field("buscador club.png", documento, "Escribir documento")
+        if exito: exito = self._click_image("buscar cliente club.png", "Botón 'Buscar cliente'")
+        if exito: exito = self._click_image("redimir club.png", "Botón 'Redimir' premios")
+        if exito: exito = self._click_image("producto leal.png", "seleccionar producto leal")
+        if exito: exito = self._click_image("redimir boton.png", "seleccionar botón redimir")
+        if exito: exito = self._click_image("confirmar club.png", "Botón 'Confirmar' del registro")
+        return exito
+    
+    def usuario_oferfit(self, documento, cupon):
+        """redimir con un usuario registrado en el club."""
+        print(f"\n--- Buscando cliente registrado en club: {documento} ---")
+        exito = True
+        if exito: exito = self._click_image("club bacanes.png", "Botón 'Club Bacanes'")
+        if exito: exito = self._type_into_field("buscador club.png", documento, "Escribir documento")
+        if exito: exito = self._click_image("buscar cliente club.png", "Botón 'Buscar cliente'")
+        if exito: exito = self._click_image("confirmar club.png", "Botón 'Confirmar' del registro")
+        if exito: exito = self._click_image("cupon.png", "Botón 'de oferfit' del registro")
+        if exito: exito = self._click_image("escribir cupon.png", cupon, "Escribir oferta")
+        if exito: exito = self._click_image("confirmar cupon.png", "confirmar")
+        return exito
+    
+
     #--------------------pagos
 
+    def pagar_con_efectivo(self, subtotal, propina):
+        """Realiza el flujo de pago con efectivo."""
+        print("\n--- Realizando Pago con Efectivo ---")
+        exito = True
+        if exito: exito = self._click_image("medio de pago .png", "Desplegable de método de pago")
+        if exito: exito = self._click_image("efectivo.png", "Opción 'Efectivo'")
+        if exito: exito = self._type_into_field("sub total.png", subtotal, "Campo de valor pagado")
+        if exito: exito = self._type_into_field("propina.png", propina, "Campo de propina")
+        if exito: exito = self._click_image("cerrar orden.png", "Botón 'Cerrar Orden' final")
+        return exito
+
+    def pagar_con_tarjetas(self, subtotal, impuesto, propina):
+        """Realiza el flujo de pago con tarjeta."""
+        print("\n--- Realizando Pago con Tarjeta ---")
+        exito = True
+        if exito: exito = self._click_image("medio de pago .png", "Desplegable de método de pago")
+        if exito: exito = self._click_image("tarjeta metodo.png", "Opción 'Tarjeta'")
+        if exito: exito = self._type_into_field("sub total.png", subtotal, "Campo de valor pagado")
+        if exito: exito = self._type_into_field("impuestos.png", impuesto, "Campo de impuesto")
+        if exito: exito = self._type_into_field("propina.png", propina, "Campo de propina")
+        if exito: exito = self._click_image("cerrar orden.png", "Botón 'Cerrar Orden' final")
+        return exito
+    
+    
+    
+    def pagar_con_observacion(self, subtotal, propina, observaciones):
+        """Realiza el flujo de pago con efectivo incluyendo observación."""
+        print(f"\n--- Realizando Pago con Observación: {observaciones} ---")
+        exito = True
+        if exito: exito = self._click_image("medio de pago .png", "Desplegable de método de pago")
+        if exito: exito = self._click_image("efectivo.png", "Opción 'Efectivo'")
+        if exito: exito = self._type_into_field("sub total.png", subtotal, "Campo de valor pagado")
+        if exito: exito = self._type_into_field("propina.png", propina, "Campo de propina")
+        if exito: 
+         exito = self._type_into_field("observacion pago.png", observaciones, "Campo de observaciones")
+        if exito: exito = self._click_image("cerrar orden.png", "Botón 'Cerrar Orden' final")
+        return exito
+    
+    def iniciar_pago_con_propina_y_confirmar(self, imagen_propina, imagen_metodo_inicial):
+        """
+        Entra a cobrar, selecciona propina, un método inicial y confirma
+        para llegar a la pantalla de desglose de pagos.
+        """
+        print(f"\n--- Iniciando pago con {imagen_propina} y método inicial ---")
+        exito = True
+        if exito: exito = self._click_image("Ir a cobrar.png", "Botón 'Ir a Cobrar'")
+        if exito: exito = self._click_image(imagen_propina, "Botón de Propina")
+        if exito: exito = self._click_image(imagen_metodo_inicial, "Método de pago inicial")
+        if exito: exito = self._click_image("confirmar.png", "Botón 'Confirmar' inicial")
+        
+        return exito
+
+    def agregar_lineas_de_pago(self, cantidad_extra):
+        """Hace clic en el botón '+' para abrir nuevos renglones."""
+        print(f"\n--- Agregando {cantidad_extra} líneas de pago extra ---")
+        exito = True
+        for i in range(cantidad_extra):
+            print(f"-> Clic en '+' (Línea {i + 2})...")
+            exito = self._click_image("boton_agregar_pago.png", "Botón '+'") 
+            time.sleep(1)
+            if not exito: break
+        return exito
+
+    def diligenciar_lista_de_pagos_completa(self, lista_pagos):
+        """
+        Llena Método (Efectivo), Subtotal y Propina para múltiples pagos.
+        Usa imágenes para el primero y navegación por teclado para los siguientes.
+        """
+        print(f"\n--- Diligenciando {len(lista_pagos)} pagos completos (Efectivo) ---")
+        exito = True
+        
+        for i, pago in enumerate(lista_pagos):
+            monto = pago["monto"]
+            propina = pago["propina"]
+            
+            print(f"\n-> Procesando pago #{i + 1}...")
+            
+            if i == 0:
+                print("   Configurando primer renglón...")
+                if exito: exito = self._click_image("medio de pago .png", "Desplegable Método 1")
+                if exito: exito = self._click_image("efectivo.png", "Opción Efectivo")
+                if exito: exito = self._type_into_field("sub total.png", monto, "Subtotal 1")
+                if exito: exito = self._type_into_field("propina.png", propina, "Propina 1")
+            
+            else:
+                # --- PAGOS SIGUIENTES: Navegación 100% Teclado ---
+                print(f"   Bajando al renglón {i + 1}...")
+                
+                # 1. Salir de la propina anterior y saltar la basura
+                pyautogui.press('tab') # Salir del campo Propina
+                time.sleep(0.1)
+                pyautogui.press('tab') # ¡Salto de fe sobre la Papelera! 🗑️
+                time.sleep(0.5)
+                
+                # 2. Abrir el menú desplegable
+                # El cursor ya está en "Medio de pago"
+                pyautogui.press('space') 
+                time.sleep(0.5)
+                
+                # --- CAMBIO IMPORTANTE AQUÍ ---
+                # En lugar de buscar la imagen, bajamos con la flecha y damos Enter.
+                # Como 'Efectivo' es la primera opción, una flecha abajo basta.
+                pyautogui.press('down') 
+                time.sleep(0.2)
+                pyautogui.press('enter')
+                print("   Seleccionó 'Efectivo' usando teclado")
+                # -------------------------------
+                
+                # 3. Pasar al Subtotal
+                pyautogui.press('tab')
+                time.sleep(0.5)
+                pyautogui.write(monto)
+                print(f"   Escribió Subtotal: {monto}")
+                pyautogui.press('tab') # ¡Salto de fe sobre la Papelera! 🗑️
+                time.sleep(0.5)
+                
+
+
+                # 4. Pasar a la Propina
+                pyautogui.press('tab')
+                time.sleep(0.5)
+                pyautogui.write(propina)
+                print(f"   Escribió Propina: {propina}")
+
+        return exito
+    
     def pagar_con_tarjeta(self, imagen_propina):
         print("\n--- Realizando Pago con Tarjeta ---")
         exito = True
         if exito: exito = self._click_image("Ir a cobrar.png", "Botón 'Ir a Cobrar'")
         if exito: exito = self._click_image(imagen_propina, "Botón de Propina")
         if exito: exito = self._click_image("tarjeta.png", "Método de pago 'Tarjeta'")
+        if exito: exito = self._click_image("confirmar.png", "Botón 'Confirmar'")
+        return exito
+    
+    def pagar_con_tarjeta_club_bacanes(self, imagen_propina):
+        print("\n--- Realizando Pago con Tarjeta ---")
+        exito = True
+        if exito: exito = self._click_image("Ir a cobrar.png", "Botón 'Ir a Cobrar'")
+        if exito: exito = self._click_image(imagen_propina, "Botón de Propina")
+        if exito: exito = self._click_image("consumidor indentificado.png", "Botón 'consumidor identificado'")
+        print("-> Bajando en la pantalla para encontrar más opciones...")
+        pyautogui.scroll(-500) 
+        time.sleep(1)
+        if exito: exito = self._click_image("confirmar consumidor.png", "Botón 'Confirmar'")
+        if exito: exito = self._click_image("aplicar.png", "Aplicar'aplicar'")
+        if exito: exito = self._click_image("tarjeta.png", "Método de pago 'Tarjeta'")
+        if exito: exito = self._click_image("confirmar.png", "Botón 'Confirmar'")
+        return exito
+    
+    def pagar_con_descuento_y_tarjeta(self, imagen_propina, porcentaje_descuento):
+        print(f"\n--- Pagando orden con {porcentaje_descuento}% de descuento y tarjeta ---")
+        exito = True
+        if exito: exito = self._click_image("Ir a cobrar.png", "Botón 'Ir a Cobrar'")
+        if exito: exito = self._click_image(imagen_propina, "Botón de Propina")
+        if exito: exito = self._click_image("tarjeta.png", "Método de pago 'Tarjeta'")
+        pyautogui.scroll(-500); time.sleep(1)
+        if exito: exito = self._click_image("descuento.png", "Botón 'Descuento'")
+        if exito: exito = self._type_into_field("escribir descuento.png", str(porcentaje_descuento), "Campo 'Descuento'")
+        pyautogui.scroll(-500); time.sleep(1)
+        if exito: exito = self._click_image("confirmar.png", "Botón 'Confirmar'")
+        return exito
+    
+    def pago_con_descuento(self, imagen_propina, porcentaje_descuento):
+        """Realiza el flujo de pago seleccionando un descuento."""
+        print(f"\n--- Realizando Pago con Descuento ---")
+        exito = True
+        if exito: exito = self._click_image("Ir a cobrar.png", "Botón 'Ir a Cobrar'")
+        if exito: exito = self._click_image(imagen_propina, "Botón de Propina")
+        if exito: exito = self._click_image("tarjeta.png", "Método de pago 'Tarjeta'")
+        print("-> Bajando en la pantalla para encontrar más opciones...")
+        pyautogui.scroll(-500) 
+        time.sleep(1)
+        if exito: exito = self._click_image("descuento.png", "Botón 'Descuento'")
+        if exito: exito = self._type_into_field("escribir descuento.png", str(porcentaje_descuento), "Campo 'Descuento'")
         if exito: exito = self._click_image("confirmar.png", "Botón 'Confirmar'")
         return exito
 
@@ -343,20 +514,6 @@ class PosAutomator:
         if exito: exito = self._click_image("confirmar.png", "Botón 'Confirmar'")
         return exito
 
-    def pago_con_descuento(self, imagen_propina, porcentaje_descuento):
-        """Realiza el flujo de pago seleccionando un descuento."""
-        print(f"\n--- Realizando Pago con Descuento ---")
-        exito = True
-        if exito: exito = self._click_image("Ir a cobrar.png", "Botón 'Ir a Cobrar'")
-        if exito: exito = self._click_image(imagen_propina, "Botón de Propina")
-        print("-> Bajando en la pantalla para encontrar más opciones...")
-        pyautogui.scroll(-500) 
-        time.sleep(1)
-        if exito: exito = self._click_image("descuento.png", "Botón 'Descuento'")
-        if exito: exito = self._type_into_field("escribir descuento.png", str(porcentaje_descuento), "Campo 'Descuento'")
-        if exito: exito = self._click_image("tarjeta.png", "Método de pago 'Tarjeta'")
-        if exito: exito = self._click_image("confirmar.png", "Botón 'Confirmar'")
-        return exito
 
     def pagar_consumidor_identificado(self, imagen_propina, documento, nombre, correo):
         print(f"\n--- Registrando nuevo cliente en la orden para consumidor identificado: {nombre} ---")
@@ -394,26 +551,7 @@ class PosAutomator:
         if exito: exito = self._click_image("tarjeta.png", "Método de pago 'Tarjeta'")
         if exito: exito = self._click_image("confirmar.png", "Botón 'Confirmar'")
         return exito
-    
-    def editar_orden_completa(self, nuevo_valor_propina, nit_numero, dv, razon_social, correo, nuevo_porcentaje_descuento):
-        """
-        Ya en modo edición, cambia la propina, reasigna el cliente a NIT y aplica un nuevo descuento.
-        """
-        print("\n--- Cambiando propina, cliente y descuento de la orden ---")
-        exito = True
-        if exito: exito = self._click_image("valor de propina.png", "Opción 'Valor de Propina'")
-        time.sleep(2)
-        if exito:
-            if exito: exito = self._type_into_field("escribir valor de propina.png", nuevo_valor_propina, "Campo 'Valor de Propina'")
-        if exito: exito = self._click_image("confirmar propina.png", "Botón 'Confirmar'")
-        else:
-                exito = False
-        if exito: exito = self.llenar_formulario_nit(nit_numero, dv, razon_social, correo)
-        if exito: exito = self._click_image("descuento.png", "Botón 'Descuento'")
-        if exito: exito = self._type_into_field("escribir descuento.png", str(nuevo_porcentaje_descuento), "Campo 'Descuento'")
-        if exito: exito = self._click_image("guardar_edicion.png", "Botón final para Guardar Edición")
-        
-        return exito    
+     
 
     def pagar_consumidor_identificado_nit(self, nit_numero, dv, razon_social, correo):
         """
@@ -437,7 +575,40 @@ class PosAutomator:
         if exito: exito = self._click_image("confirmar.png", "Botón 'Confirmar'")
         
         return exito
+
+        #----Editar orden
+    def iniciar_edicion_y_reautenticar(self, pin):
+        print("\n--- Iniciando edición de orden ---")
+        exito = True
+        if exito: exito = self._click_image("editar orden.png", "Botón 'Editar Orden'")
+        if exito:
+            print("-> Re-autenticando con PIN de edición...")
+            time.sleep(2)
+            exito = self.login(pin, image_prefix="editar ")
+        return exito
     
+    def editar_orden_completa(self, nuevo_valor_propina, nit_numero, dv, razon_social, correo, nuevo_porcentaje_descuento):
+        """
+        Ya en modo edición, cambia la propina, reasigna el cliente a NIT y aplica un nuevo descuento.
+        """
+        print("\n--- Cambiando propina, cliente y descuento de la orden ---")
+        exito = True
+        if exito: exito = self._click_image("valor de propina.png", "Opción 'Valor de Propina'")
+        time.sleep(2)
+        if exito:
+            if exito: exito = self._type_into_field("escribir valor de propina.png", nuevo_valor_propina, "Campo 'Valor de Propina'")
+        if exito: exito = self._click_image("confirmar propina.png", "Botón 'Confirmar'")
+        else:
+                exito = False
+        if exito: exito = self.llenar_formulario_nit(nit_numero, dv, razon_social, correo)
+        #if exito: exito = self._click_image("tarjeta.png", "Método de pago 'Tarjeta'")
+        if exito: exito = self._click_image("descuento.png", "Botón 'Descuento'")
+        #pyautogui.scroll(-500); time.sleep(1)
+        if exito: exito = self._type_into_field("escribir descuento.png", str(nuevo_porcentaje_descuento), "Campo 'Descuento'")
+        if exito: exito = self._click_image("continuar editar.png", "Botón final para Guardar Edición")
+        
+        return exito
+
     def _paste_into_field(self, image_name, text_to_paste, description, confidence=0.8, timeout=10):
         """Versión mejorada: Encuentra un campo durante un tiempo y PEGA texto."""
         print(f"📋 Pegando en '{description}'...")
@@ -456,8 +627,8 @@ class PosAutomator:
                 pass
             time.sleep(1)
         print(f"❌ ERROR: No se encontró la imagen de referencia para '{description}' después de {timeout} segundos.")
-        return False
-    
+        return False  
+     
     def clic_en_icono_usuario(self):
         """
         Hace clic en el ícono de usuario. Diseñado para usarse al final de una prueba.

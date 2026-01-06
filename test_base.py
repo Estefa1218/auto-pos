@@ -6,7 +6,7 @@ import random
 
 # --- CONFIGURACIÓN CENTRALIZADA ---
 # Si algo cambia, solo lo modificas aquí.
-RUTA_APP_POS = r"C:\Users\estef\OneDrive\Documentos\Ejecucion pruebas\nPos-v0.5.9-4-Release-windows\pos.exe"
+RUTA_APP_POS = r"C:\Users\estef\OneDrive\Documentos\Ejecucion pruebas\nPos-v0.6.0-Release-windows\pos.exe"
 PIN_A_INGRESAR = "220725"
 
 def setup_and_login(nombre_escenario):

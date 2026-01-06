@@ -12,7 +12,7 @@ NIT_NUMERO, DV = generar_nit_valido()
 RAZON_SOCIAL = fake.company()
 CORREO = fake.company_email()
 PIN = "220725"
-NUEVA_PROPINA = "2000"
+NUEVA_PROPINA = "1000"
 DESCUENTO_INICIAL = "30 de descuento.png" 
 DESCUENTO_FINAL = "20 de descuento.png"
 
