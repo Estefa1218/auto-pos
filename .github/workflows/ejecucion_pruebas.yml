@@ -1,0 +1,55 @@
+name: Robot de Pruebas POS
+
+# ¿Cuándo se ejecuta? Cuando haces push a la rama 'main'
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  pruebas-en-windows:
+    runs-on: windows-latest  # ¡Usamos una máquina Windows real!
+    
+    steps:
+    # 1. Descargar tu código del repositorio
+    - name: Descargar Código (Checkout)
+      uses: actions/checkout@v4
+
+    # 2. Instalar Python
+    - name: Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.13"
+
+    # 3. Instalar las librerías necesarias
+    - name: Instalar Dependencias
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-html pyautogui faker opencv-python pillow selenium
+
+    # 4. Intentar cambiar la resolución (Truco para acercarnos a tu pantalla)
+    # Nota: GitHub limita esto, pero ayuda a veces.
+    - name: Ajustar Resolución de Pantalla
+      run: |
+        Set-DisplayResolution -Width 1920 -Height 1080 -Force
+      continue-on-error: true # Si falla, seguimos igual
+
+    # 5. ¡EJECUTAR LAS PRUEBAS!
+    # Usamos xvfb-run virtual si fuera Linux, pero en Windows se ejecuta directo.
+    - name: Correr Pytest
+      run: |
+        # Creamos la carpeta evidencias por si acaso
+        mkdir evidencias 2> $null
+        # Ejecutamos el test
+        python -m pytest Set_prueba_metodos_de_pago/test_observaciones.py
+      
+    # 6. GUARDAR LA EVIDENCIA (Solo si falla)
+    # Esto sube las fotos a GitHub para que las descargues
+    - name: Subir Screenshots de Errores
+      if: failure() # Solo si el paso anterior falló
+      uses: actions/upload-artifact@v4
+      with:
+        name: capturas-de-error
+        path: evidencias/
+        retention-days: 5
